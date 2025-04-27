@@ -24,8 +24,9 @@ export const fetchProducts = createAsyncThunk("products/fetchProducts", async ()
       console.warn("API request failed, using mock data")
       return mockProducts
     }
-
+    
     const data = await response.json()
+    console.log(data)
     // If API returns empty data or not an array, use mock data
     const products = Array.isArray(data.data) && data.data.length > 0 ? data.data : mockProducts
     return products
@@ -34,6 +35,8 @@ export const fetchProducts = createAsyncThunk("products/fetchProducts", async ()
     // Return mock data if API fails
     return mockProducts
   }
+
+  
 })
 
 // Async thunk for fetching a single product
@@ -52,10 +55,11 @@ export const fetchProductById = createAsyncThunk(
       }
 
       const data = await response.json()
+  
       const products = Array.isArray(data.data) ? data.data : []
+      console.log("products data" ,products)
       let product = products.find((p: Product) => p.id.toString() === id)
 
-      // If not found in API data, check mock data
       if (!product) {
         product = mockProducts.find((p) => p.id.toString() === id)
         if (!product) {
@@ -86,7 +90,7 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle fetchProducts
+     
       .addCase(fetchProducts.pending, (state) => {
         state.status = "loading"
       })
