@@ -1,3 +1,4 @@
+
 "use client"
 
 import Image from "next/image"
@@ -16,7 +17,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const { selectedProduct, status, error } = useAppSelector((state) => state.products)
-
+  console.log(selectedProduct)
   useEffect(() => {
     dispatch(fetchProductById(params.id))
   }, [dispatch, params.id])
@@ -50,7 +51,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   }
 
   // Format the image URL
-  let imageUrl = "/placeholder.svg?height=600&width=600"
+  let imageUrl = `https://admin.refabry.com/storage/product/${selectedProduct.image}`
 
   if (selectedProduct.thumbnail) {
     // Check if it's a mock image
@@ -84,7 +85,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         <div className="flex flex-col">
           <div className="mb-4">
             <span className="bg-primary/10 text-primary text-sm px-3 py-1 rounded-full">
-              {selectedProduct.category_name || "Uncategorized"}
+              {selectedProduct?.category?.name || "Uncategorized"}
             </span>
           </div>
 
@@ -112,9 +113,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             <h2 className="font-semibold mb-2">Description</h2>
             <div className="text-gray-700">
               {selectedProduct.description ? (
-                <div dangerouslySetInnerHTML={{ __html: selectedProduct.description }} />
+                <div dangerouslySetInnerHTML={{ __html: selectedProduct.short_desc }} />
               ) : (
-                <p>{selectedProduct.short_description || "No description available"}</p>
+                <p>{selectedProduct.short_desc || "No description available"}</p>
               )}
             </div>
           </div>

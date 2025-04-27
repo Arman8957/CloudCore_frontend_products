@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect } from "react"
@@ -9,7 +10,6 @@ import { fetchProducts } from "@/lib/redux/slices/productsSlice"
 export default function ProductGrid() {
   const dispatch = useAppDispatch()
   const { items, status, error } = useAppSelector((state) => state.products)
-
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchProducts())
@@ -33,7 +33,7 @@ export default function ProductGrid() {
     )
   }
 
-  // Add a check to ensure items is an array
+
   if (!Array.isArray(items) || items.length === 0) {
     return (
       <div className="text-center p-8">
